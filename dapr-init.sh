@@ -7,18 +7,28 @@ function setup_dapr {
 
 	dapr init
 	dapr_version=$(dapr --version)
-	
+
 	echo "checking dapr version $dapr_version"
 }
-function is_docker_running {
-if ! docker info > /dev/null 2>&1; then
-  echo "Dapr requires docker engine to be running"
-  exit 1
-fi
+
+function check_dapr_containers {
+	alldaprContainers=("dapr_placement" "dapr_zipkin" "dapr_redis")
+
+	echo "checking all dapr containers are running...."
+
+	for container in ${alldaprContainers[@]}; do
+  		echo "checking" $container
+		if ! docker ps | grep $container > /dev/null 2>&1; then
+			echo "❌ Dapr container $container is not running"
+		else
+			echo "✅ Dapr $container is running!!"
+		fi
+	done
 }
 #check if dapr is already installed
 dapr_install_path="$HOME/.dapr/bin/daprd"
 
+check_dapr_containers 
 
 if [[ -f "$dapr_install_path" ]]; 
 then
@@ -27,4 +37,4 @@ then
 else
 	setup_dapr	
 fi
-#dapr init
+dapr init
