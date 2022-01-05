@@ -28,8 +28,6 @@ function check_dapr_containers {
 #check if dapr is already installed
 dapr_install_path="$HOME/.dapr/bin/daprd"
 
-check_dapr_containers 
-
 if [[ -f "$dapr_install_path" ]]; 
 then
 	echo "✅ dapr already installed"
@@ -37,4 +35,7 @@ then
 else
 	setup_dapr	
 fi
-dapr init
+
+echo "checking dapr containers are running..."
+check_dapr_containers 
+
