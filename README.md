@@ -9,7 +9,17 @@ a lot of the cross cutting concerns.
 # Dapr architecture
 
 Dapr is a language agnostic runtime that allows you to build Cloud native 
-distributed applications.
+distributed applications. 
 
+In simple terms it takes away lot of the toil around common cross cutting 
+concerns that developers have to think about when developing applications
+based on Microservices architecture. Key concerns addresssed by Dapr include:
+
+* State management
+* Pub/sub
+* Secrets management
+* Service discovery
+
+## Dapr setup
 
 
