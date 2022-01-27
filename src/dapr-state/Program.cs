@@ -1,34 +1,34 @@
-﻿using System.Threading;
+﻿using System.Diagnostics;
+using System.Threading;
+using System.Timers;
 using daprstate.Models;
 
-// See https://aka.ms/new-console-template for more information
 Console.WriteLine("Welcome to a simple Game simulator using Dapr state building block");
 
 Console.WriteLine("Do you want to start the the game simulator");
 
 var gameController = new GameController(new Game("Doom",GameType.ShootemUp));
 
-var key = Console.ReadKey();
+Console.WriteLine("\nLets get going. initialising game");
 
+var stopWatch = new Stopwatch();
+stopWatch.Start();
 var thread = new Thread(gameController.Start);
-    
-if(key.KeyChar == 'y')
-{
-     Console.WriteLine("\nLets get going. initialising game");
 
-     thread.Start();
-}
+thread.Start();  
 
+var gameCounter = 0;
 while (true)
-{
-    Console.Write("At any time stop the game by pressing enter ");
-    var input = Console.ReadLine();
-
-    gameController.End();
-    
-    if(!gameController.IsGameRunning)
+{   
+    if(gameCounter == 60)
     {
+        gameController.End();
+    
+        Console.WriteLine($"Game simulation finished...");
         break;
     }
+    Thread.Sleep(1000);
+    gameCounter++;
 }
-Console.WriteLine("Game simulator game has finished...");
+
+thread.Join();

@@ -10,6 +10,10 @@ namespace daprstate.Models
 
         private List<string> gameCommands = new List<string>{"FireGun","Health","FireLaser"};
 
+        private bool isGameRunning;
+
+        public bool IsGameRunning { get => isGameRunning; set => isGameRunning = value; }
+
         public Game(string name, GameType gameType)
         {   
             this.name = name ?? throw new ArgumentNullException(nameof(name), "Game name is invalid");
@@ -25,8 +29,9 @@ namespace daprstate.Models
             var pointGenerator = new Random();
             var gameCommandGenerator = new Random();
             Console.WriteLine("Simulating player...");
+            IsGameRunning = true;
 
-            while(true)
+            while(IsGameRunning)
             {
                 GameState.StartTime = DateTime.UtcNow;
                 GameState.GameScore+= pointGenerator.Next();
@@ -37,6 +42,11 @@ namespace daprstate.Models
             
                 Thread.Sleep(1000);
             }
+        }
+
+        public void Stop()
+        {
+            IsGameRunning = false;
         }
     }
 }
