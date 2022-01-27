@@ -34,7 +34,7 @@ namespace daprstate.Models
             while(IsGameRunning)
             {
                 GameState.StartTime = DateTime.UtcNow;
-                GameState.GameScore+= pointGenerator.Next();
+                GameState.GameScore+= pointGenerator.Next(30);
 
                 var nextCommand = gameCommands[gameCommandGenerator.Next(gameCommands.Count)];
 

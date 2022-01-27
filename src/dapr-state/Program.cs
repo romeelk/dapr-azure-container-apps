@@ -11,6 +11,7 @@ var gameController = new GameController(new Game("Doom",GameType.ShootemUp));
 
 Console.WriteLine("\nLets get going. initialising game");
 
+Console.WriteLine($"Your last game score was {gameController.GetLastScore()}");
 var stopWatch = new Stopwatch();
 stopWatch.Start();
 var thread = new Thread(gameController.Start);
