@@ -117,7 +117,7 @@ This confirms three dapr containers are running.
 
 ## Dapr dashboard
 
-Dapr comes with a local dashbpoard. For those familiar with Kuberenetes it is like the Kubernetes dashboard.
+Dapr comes with a local dashboard. For those familiar with Kuberenetes it is like the Kubernetes dashboard.
 
 To run it locally:
 
