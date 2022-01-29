@@ -1,30 +1,36 @@
 namespace daprstate.Models
 {
     using Dapr.Client;
+    using Newtonsoft;
+    using Newtonsoft.Json;
+
     public class GameController 
     {
         private readonly Game game;
         private readonly DaprClient daprClient;
         
-        public GameController(Game game){
-            this.game  = game;
+        public GameController(Game game)
+        {
+            this.game  = game ?? throw new ArgumentNullException(nameof(game), "Game is null");
             this.daprClient = new DaprClientBuilder().Build();
         }
 
-        public void Start(){
-            game.GameState.GameScore = GetLastScore();
+        public void Start()
+        {
             Console.WriteLine($"Starting game {game.Name}");
             game.Simulate();
             Console.WriteLine($"Game is running: {game.IsGameRunning}");
         }
-        public int GetLastScore(){
-              return daprClient.GetStateAsync<int>("statestore","currentGame").GetAwaiter().GetResult();
+        public GameState? GetGameState()
+        {
+            var gameState = daprClient.GetStateAsync<GameState>("statestore","currentGame").GetAwaiter().GetResult();
+            return gameState;
         }
-        public void End() {
-    
-            Console.WriteLine("Saving game state..");
-            daprClient.SaveStateAsync("statestore","currentGame",game.GameState.GameScore).GetAwaiter().GetResult();
+        public void End() 
+        {
             game.Stop();
+            Console.WriteLine("Saving game state..");
+            daprClient.SaveStateAsync("statestore","currentGame",game.GameState).GetAwaiter().GetResult();
         }   
     }
 

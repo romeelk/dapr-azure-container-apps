@@ -1,10 +1,9 @@
 namespace daprstate.Models
 {
-    public enum GameType {None=0,RolePlay,ShootemUp,FlightSimulator};
+    public enum GameType {None=0, RolePlay, ShootemUp, FlightSimulator};
     public class Game 
     {
         private string name;
-
         private GameType gameType;
         private GameState gameState;
 
@@ -13,6 +12,8 @@ namespace daprstate.Models
         private bool isGameRunning;
 
         public bool IsGameRunning { get => isGameRunning; set => isGameRunning = value; }
+        private readonly object gameStateLock = new object();
+    
 
         public Game(string name, GameType gameType)
         {   
@@ -30,12 +31,14 @@ namespace daprstate.Models
             var gameCommandGenerator = new Random();
             Console.WriteLine("Simulating player...");
             IsGameRunning = true;
-
+            GameState.StartTime = DateTime.UtcNow;
+                
             while(IsGameRunning)
             {
-                GameState.StartTime = DateTime.UtcNow;
-                GameState.GameScore+= pointGenerator.Next(30);
-
+                lock(gameStateLock)
+                {
+                      GameState.GameScore += pointGenerator.Next(30);            
+                }
                 var nextCommand = gameCommands[gameCommandGenerator.Next(gameCommands.Count)];
 
                 Console.WriteLine($"Player performing game commands {nextCommand}");
@@ -47,6 +50,7 @@ namespace daprstate.Models
         public void Stop()
         {
             IsGameRunning = false;
+            GameState.EndTime = DateTime.UtcNow;
         }
     }
 }
