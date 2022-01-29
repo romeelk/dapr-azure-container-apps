@@ -20,11 +20,13 @@ based on Microservices architecture. Key concerns addresssed by Dapr include:
 * Secrets management
 * Service discovery
 
-https://docs.dapr.io/images/overview.png
+
+![Dapr architecture](https://docs.dapr.io/images/overview.png)
 
 ## Part 1 - Dapr setup
 
 In this part we go through how to setup Dapr.
 
 [Part-1](src/dapr-setup/dapr-setup.md)
+
 
