@@ -71,7 +71,7 @@ Use "dapr [command] --help" for more information about a command.
 
 ## Dapr initialisation
 
-Once the dapr CLI has been initialised you must make sure that the Dapr is initialized.
+Once the dapr CLI has been installed you must make sure that the Dapr is initialized.
 This is because Dapr will run its building blocks as a sidecar. If you are running this in container mode this means 
 a container sidecar. 
 
