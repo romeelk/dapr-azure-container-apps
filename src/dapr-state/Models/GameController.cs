@@ -21,16 +21,16 @@ namespace daprstate.Models
             game.Simulate();
             Console.WriteLine($"Game is running: {game.IsGameRunning}");
         }
-        public GameState? GetGameState()
+        public Game GetGameState()
         {
-            var gameState = daprClient.GetStateAsync<GameState>("statestore","currentGame").GetAwaiter().GetResult();
+            var gameState = daprClient.GetStateAsync<Game>("statestore","currentGame").GetAwaiter().GetResult();
             return gameState;
         }
         public void End() 
         {
             game.Stop();
             Console.WriteLine("Saving game state..");
-            daprClient.SaveStateAsync("statestore","currentGame",game.GameState).GetAwaiter().GetResult();
+            daprClient.SaveStateAsync<Game>("statestore","currentGame",game).GetAwaiter().GetResult();
         }   
     }
 

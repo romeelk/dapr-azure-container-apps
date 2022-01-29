@@ -79,7 +79,7 @@ spec:
 In .Net using the DaprClient you simply make a call to save state as follows:
 
 ```
-daprClient.SaveStateAsync("statestore","currentGame",game.GameState).GetAwaiter().GetResult();   
+daprClient.SaveStateAsync("statestore","currentGame",game).GetAwaiter().GetResult();   
 ```
 The SaveStateAsync takes three parameters. The name of the configures state store "statestore", the
 key of the state you want to persist and finally the actual state.

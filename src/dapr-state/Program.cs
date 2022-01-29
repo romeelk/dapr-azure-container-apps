@@ -1,6 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Threading;
-using System.Timers;
 using daprstate.Models;
 
 Console.WriteLine("Welcome to a simple Game simulator using Dapr state building block");
@@ -20,13 +18,12 @@ if(savedGameState != null)
 
 var stopWatch = new Stopwatch();
 stopWatch.Start();
-var thread = new Thread(gameController.Start);
 
-thread.Start();  
+Task.Run(()=>gameController.Start());
 
 while (true)
 {   
-    if(stopWatch.Elapsed.Seconds == 50)
+    if(stopWatch.Elapsed.Seconds == 10)
     {
         gameController.End();
     
@@ -36,4 +33,4 @@ while (true)
     Thread.Sleep(1000);
 }
 
-thread.Join();
+Task.WaitAll();
