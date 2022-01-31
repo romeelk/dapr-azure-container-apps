@@ -1,8 +1,6 @@
 namespace daprstate.Models
 {
     using Dapr.Client;
-    using Newtonsoft;
-    using Newtonsoft.Json;
 
     public class GameController 
     {

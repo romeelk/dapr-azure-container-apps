@@ -13,7 +13,7 @@ if(savedGameState != null)
 {
     Console.WriteLine($"Your last game score was {savedGameState?.GameScore}");
     Console.WriteLine($"Your last game started at {savedGameState?.StartTime.ToString()}");
-    Console.WriteLine($"You last finished your game at {savedGameState?.EndTime.ToString()}");
+    Console.WriteLine($"You last game finished your game at {savedGameState?.EndTime.ToString()}");
 }
 
 var stopWatch = new Stopwatch();
