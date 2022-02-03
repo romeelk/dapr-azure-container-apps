@@ -29,4 +29,8 @@ In this part we go through how to setup Dapr.
 
 [Part-1](src/dapr-setup/dapr-setup.md)
 
+## Part 2 - Dapr pub/sub
 
+In this part we go through how to setup a pub/sub component using topics and Dapr's pubsub sidecar
+
+[Part-2](src/dapr-pubsub/dapr-pubsub.md)
