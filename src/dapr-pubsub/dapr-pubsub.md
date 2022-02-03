@@ -78,6 +78,22 @@ scopes:
   - checkout
 
 ```
+We will use the default redis as a pub/sub middleware using the following config:
+
+```
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: order_pub_sub
+spec:
+  type: pubsub.redis
+  version: v1
+  metadata:
+  - name: redisHost
+    value: localhost:6379
+  - name: redisPassword
+    value: ""
+```
 
 ## Creating your subscriptions
 
