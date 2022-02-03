@@ -5,15 +5,14 @@ The pub/sub building block provides a convenient programming abstraction
 for developers building loosely coupled microservices/distributed applications.
 
 There are many pub/sub message oriented middleware systems to use. Each of those
-will have there own implementation details. Dapr allows developers to avoid the glue
-of plumbing these infrastructure concerns by delegating the messaging to Dapr.
-Dapr will then essentially route a message to a supported message middleware provider.
+will have there own implementation details.
+
 
 ## Architecture
 
 ![dapr pub sub architecture](https://docs.dapr.io/images/pubsub-overview-components.png)
 
-From the above architecture diagram the key components include:
+Key components:
 
 * Your app
 * Dapr pub/sub side car
@@ -30,7 +29,7 @@ home profile path:
 /Users/<userprofile>/.dapr/components
 ```
 
-A default pub/sub component yaml is created. This uses the default redis side car:
+A default pub/sub component yaml is created:
 
 ```
 apiVersion: dapr.io/v1alpha1
@@ -51,9 +50,7 @@ If you want to customise this file then you need to amend it.
 
 ## Creating a custom pub/sub component topic
 
-Any pub/sub middleware needs a configuration so dapr knows it is the middleware to use.
-
-By default dapr creates a pubsub.yaml file using redis:
+To create a custom topic to subscribe to modify the pubsub.yml file in the components folder:
 
 ```
 apiVersion: dapr.io/v1alpha1
@@ -61,13 +58,25 @@ kind: Component
 metadata:
   name: order_pub_sub
 spec:
-  type: pubsub.redis
+  type: pubsub.rabbitmq
   version: v1
   metadata:
-  - name: redisHost
-    value: localhost:6379
-  - name: redisPassword
-    value: ""
+  - name: host
+    value: "amqp://localhost:5672"
+  - name: durable
+    value: "false"
+  - name: deletedWhenUnused
+    value: "false"
+  - name: autoAck
+    value: "false"
+  - name: reconnectWait
+    value: "0"
+  - name: concurrency
+    value: parallel
+scopes:
+  - orderprocessing
+  - checkout
+
 ```
 
 ## Creating your subscriptions
@@ -116,6 +125,12 @@ dapr run --app-id checkout --components-path ../components/ -p 50000 -d ../compo
 Once you have started the app that is listening to a subscribed pub/sub topic start running the 
 application that will publish events:
 
+Dotnet
 ```
 dapr run --app-id orderprocessing --components-path ../components/ --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 --app-ssl dotnet run
+```
+
+Python
+```
+dapr run --app-id orderprocessing --components-path ../components/ --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 --app-ssl python3 app.py
 ```
