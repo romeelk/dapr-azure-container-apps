@@ -5,14 +5,15 @@ The pub/sub building block provides a convenient programming abstraction
 for developers building loosely coupled microservices/distributed applications.
 
 There are many pub/sub message oriented middleware systems to use. Each of those
-will have there own implementation details.
-
+will have there own implementation details. Dapr allows developers to avoid the glue
+of plumbing these infrastructure concerns by delegating the messaging to Dapr.
+Dapr will then essentially route a message to a supported message middleware provider.
 
 ## Architecture
 
 ![dapr pub sub architecture](https://docs.dapr.io/images/pubsub-overview-components.png)
 
-Key components:
+From the above architecture diagram the key components include:
 
 * Your app
 * Dapr pub/sub side car
@@ -29,7 +30,7 @@ home profile path:
 /Users/<userprofile>/.dapr/components
 ```
 
-A default pub/sub component yaml is created:
+A default pub/sub component yaml is created. This uses the default redis side car:
 
 ```
 apiVersion: dapr.io/v1alpha1
@@ -50,7 +51,9 @@ If you want to customise this file then you need to amend it.
 
 ## Creating a custom pub/sub component topic
 
-To create a custom topic to subscribe to modify the pubsub.yml file in the components folder:
+Any pub/sub middleware needs a configuration so dapr knows it is the middleware to use.
+
+By default dapr creates a pubsub.yaml file using redis:
 
 ```
 apiVersion: dapr.io/v1alpha1
@@ -58,25 +61,13 @@ kind: Component
 metadata:
   name: order_pub_sub
 spec:
-  type: pubsub.rabbitmq
+  type: pubsub.redis
   version: v1
   metadata:
-  - name: host
-    value: "amqp://localhost:5672"
-  - name: durable
-    value: "false"
-  - name: deletedWhenUnused
-    value: "false"
-  - name: autoAck
-    value: "false"
-  - name: reconnectWait
-    value: "0"
-  - name: concurrency
-    value: parallel
-scopes:
-  - orderprocessing
-  - checkout
-
+  - name: redisHost
+    value: localhost:6379
+  - name: redisPassword
+    value: ""
 ```
 
 ## Creating your subscriptions
