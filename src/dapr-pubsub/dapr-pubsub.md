@@ -132,7 +132,8 @@ dependancy to communicate with.
 
 Start the susbcribing app. In this case:
 ```
-dapr run --app-id checkout --components-path ../components/ -p 50000 -d ../components/ -- dotnet run --urls http://*:50000
+cd checkout
+dapr run --app-id checkout --components-path ../components -p 50000 -d ../components -- dotnet run --urls http://*:50000
 
 ```
 
