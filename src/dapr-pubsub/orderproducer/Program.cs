@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using Dapr.Client;
-using System.Threading;
+﻿using Dapr.Client;
 using orderproducer;
 
 // See https://aka.ms/new-console-template for more information
@@ -15,10 +9,11 @@ string TOPIC_NAME = "orders";
 var orderStatuses = new List<string>{"Pending","Processing","Complete"};
 var orderStatusGen = new Random(orderStatuses.Count);
 var orderIdGen  = new Random();
+
 while (true)
 {
     System.Threading.Thread.Sleep(1000);
-     var orderStatus = orderStatuses[orderStatusGen.Next(0,orderStatuses.Count)];
+    var orderStatus = orderStatuses[orderStatusGen.Next(0,orderStatuses.Count)];
     int orderId = orderIdGen.Next(1, 1000);
     CancellationTokenSource source = new CancellationTokenSource();
     CancellationToken cancellationToken = source.Token;

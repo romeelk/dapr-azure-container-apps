@@ -19,7 +19,7 @@ if(savedGameState != null)
 var stopWatch = new Stopwatch();
 stopWatch.Start();
 
-Task.Run(()=>gameController.Start());
+await Task.Run(()=>gameController.Start());
 
 while (true)
 {   
